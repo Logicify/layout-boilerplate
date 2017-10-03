@@ -1,0 +1,56 @@
+//* -----------------------------------------------------------------------------
+//* This file contains all application-wide LESS mixins.
+//* -----------------------------------------------------------------------------
+
+/// Event wrapper
+/// @author Harry Roberts
+/// @param {Bool} $self [false] - Whether or not to include current selector
+/// @link https://twitter.com/csswizardry/status/478938530342006784 Original tweet from Harry Roberts
+.on-event(@rules) {
+  &:hover,
+  &:active,
+  &:focus {
+    @rules();
+  }
+}
+
+.generate-property(@property, @start, @end, @step) when (@start =< @end) and not (@property = opacity){
+  .@{property}-@{start} {
+      @{property}: @start * 1px;
+  }
+
+  .generate-property(@property, @start + @step, @end, @step);
+}
+
+.generate-property(@property, @start, @end, @step) when (@start =< @end) and (@property = opacity){
+  @value: @start * 100;
+  .@{property}-@{value} {
+      @{property}: @start;
+  }
+
+  .generate-property(@property, @start + @step, @end, @step);
+}
+
+.clearfix() {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+.placeholder(@rules) {
+
+  &::-webkit-input-placeholder {
+    @rules();
+  }
+  &:-moz-placeholder {
+    @rules();
+  }
+  &::-moz-placeholder {
+    @rules();
+  }
+  &:-ms-input-placeholder {
+    @rules();
+  }
+}

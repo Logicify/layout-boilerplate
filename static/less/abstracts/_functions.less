@@ -1,0 +1,65 @@
+//* -----------------------------------------------------------------------------
+//* This file contains all application-wide LESS functions.
+//* -----------------------------------------------------------------------------
+
+/// Native `url(..)` function wrapper
+/// @param {String} @base - base URL for the asset
+/// @param {String} @type - asset type folder (e.g. `fonts/`)
+/// @param {String} @path - asset path
+/// @return {Url}
+.asset(@base, @type, @path) {
+  @asset: ~"url(@{base} + @{type} + @{path})";
+}
+
+/// Returns URL to an image based on its path
+/// @param {String} @path - image path
+/// @param {String} @base [@base-url] - base URL
+/// @return {Url}
+/// @require @base-url
+.image(@path) {
+  @image: .asset(@base-url, 'images/', @path);
+}
+
+/// Returns URL to a font based on its path
+/// @param {String} @path - font path
+/// @param {String} @base [@base-url] - base URL
+/// @return {Url}
+/// @require @base-url
+.font(@path) {
+  @font: .asset(@base-url, 'fonts/', @path);
+}
+
+/// Returns URL to a SVG based on its path
+/// @param {String} @path - font path
+/// @param {String} @base [@base-url] - base URL
+/// @return {Url}
+/// @require @base-url
+.svg(@path) {
+  @svg: .asset(@base-url, 'svg/', @path);
+}
+
+/// Return responsive calc value with vw offset
+/// @param {Number} @initial - mobile size value
+/// @param {Number} @final - desktop size value
+/// @param {String} @unit - property units, default: 'px'
+/// @return {calc()}
+/// @require desktop size according to mock-up
+.vw(@initial, @final, @units: 'px') {
+  @from: unit(@initial);
+  @to: unit(@final);
+  @result: round((@to - @from) / (unit(@mockup-width) / 100), 2);
+  @vw: ~"calc(@{from}@{units} + @{result}vw)";
+}
+
+/// Return responsive calc value with vh offset
+/// @param {Number} @initial - mobile size value
+/// @param {Number} @final - desktop size value
+/// @param {String} @unit - property units, default: 'px'
+/// @return {calc()}
+/// @require desktop size according to mock-up
+.vh(@initial, @final, @units: 'px') {
+  @from: unit(@initial);
+  @to: unit(@final);
+  @result: round((@to - @from) / (unit(@mockup-width) / 100), 2);
+  @vh: ~"calc(@{from}@{units} + @{result}vh)";
+}

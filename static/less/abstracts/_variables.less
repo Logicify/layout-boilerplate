@@ -1,0 +1,46 @@
+//* -----------------------------------------------------------------------------
+//* This file contains all application-wide LESS variables.
+//* -----------------------------------------------------------------------------
+
+
+/// Regular font family
+/// @type List
+@text-font-stack: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+
+
+
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'http://cdn.example.com/assets/';
+@base-url: '/static/assets/';
+
+
+
+
+// Mockup width
+@mockup-width: 1440px;
+
+// max container width
+@max-container-width: 800px;
+@container-padding: 15px;
+
+
+
+
+// breakpoints
+@mobile:      ~"screen and (max-width: 749px)";
+@tablet:      ~"screen and (min-width: 750px)";
+@desktop:     ~"screen and (min-width: 992px)";
+@desktop-xl:  ~"screen and (min-width: 1200px)";
+@desktop-hd:  ~"screen and (min-width: "(@mockup-width + 1px)~")";
+@desktop-hd-down:  ~"screen and (max-width: @{mockup-width})";
+
+@desktop-height: ~"(min-height: 800px)";
+
+
+
+// FONT VARIABLES
+
+
+// Z-INDEXES
