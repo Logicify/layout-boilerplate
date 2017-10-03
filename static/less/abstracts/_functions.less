@@ -8,7 +8,7 @@
 /// @param {String} @path - asset path
 /// @return {Url}
 .asset(@base, @type, @path) {
-  @asset: ~"url(@{base} + @{type} + @{path})";
+  @asset: ~"url(@{base}@{type}@{path})";
 }
 
 /// Returns URL to an image based on its path
@@ -17,7 +17,8 @@
 /// @return {Url}
 /// @require @base-url
 .image(@path) {
-  @image: .asset(@base-url, 'images/', @path);
+  .asset(@base-url, 'images/', @path);
+  @image: @asset;
 }
 
 /// Returns URL to a font based on its path
@@ -26,7 +27,8 @@
 /// @return {Url}
 /// @require @base-url
 .font(@path) {
-  @font: .asset(@base-url, 'fonts/', @path);
+  .asset(@base-url, 'fonts/', @path);
+  @font: @asset;
 }
 
 /// Returns URL to a SVG based on its path
@@ -35,7 +37,8 @@
 /// @return {Url}
 /// @require @base-url
 .svg(@path) {
-  @svg: .asset(@base-url, 'svg/', @path);
+  .asset(@base-url, 'svg/', @path);
+  @svg: @asset;
 }
 
 /// Return responsive calc value with vw offset
