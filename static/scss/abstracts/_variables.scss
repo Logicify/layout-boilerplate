@@ -1,0 +1,42 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+
+/// Regular font family
+/// @type List
+$text-font-stack: 'Open Sans', 'Helvetica', 'Arial', sans-serif !default;
+
+/// Heading font family
+/// @type List
+$text-font-stack: 'Open Sans', 'Helvetica', 'Arial', sans-serif !default;
+
+
+
+/// Design mock-up's maximum width
+/// @type Length
+$mockup-width: 1920px;
+
+/// Container's maximum width
+/// @type Length
+$container-max-width: 1440px !default;
+$container-padding: 15px;
+
+
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+  'small': 320px,
+  'medium': 768px,
+  'large': 1024px,
+) !default;
+
+
+
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'http://cdn.example.com/assets/';
+$base-url: '/static/assets/' !default;
