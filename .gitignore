@@ -8,3 +8,10 @@
 *.launch
 .settings/
 *.sublime-workspace
+
+# Node
+node_modules
+
+# build files
+src/css
+build
