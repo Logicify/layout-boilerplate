@@ -2,29 +2,43 @@
 
 Basic structure created to speed projects styling development.
 
-And some tips to follow.  
-
-## Favicon
-
-Use [Favicon generator](https://realfavicongenerator.net/) or similar service to generate icons for devices.
-
-**iOS devices request apple-touch icons in root directory creating unnecessary 404 responses.**
-
-## Fonts
-
-Create `@font-face` rules according to project browser support.
-
-Optimal rule is:
+## Basic structure
 
 ```
-@font-face {
-  font-family: 'MyWebFont';
-  src: url('myfont.woff2') format('woff2'),     /* Modern Browsers */
-       url('myfont.woff') format('woff'),       /* Older Browsers Support */
-       url('myfont.ttf') format('truetype');    /* Safari, Android, iOS */
-}
+src
+├── /assets                     # project resources
+|   ├── /favicons
+|   ├── /images
+|   ├── /svg
+|   ├── /fonts
+|   └── ...
+|
+├── /css                        # generated output files
+|   └── main.css
+|
+├── /js                         # project scripts
+|   ├── /vendor
+|   └── ...
+|
+└── /scss                       # development files
+    ├── /abstracts
+    ├── /base
+    ├── /components
+    ├── /layouts
+    ├── /pages
+    ├── /themes
+    ├── /vendor
+    └── main.scss               # main file to compile
 ```
 
-Order matters!
+## Prerequisites
 
-More about fonts in web [here](https://css-tricks.com/snippets/css/using-font-face/).
+Node/NPM installed.
+
+## Usage
+
+Run `npm install` to install project dependencies.
+
+Use `npm run build-scss` to compile SCSS files.
+
+Update `index.html` with appropriate path to CSS/JS files.
