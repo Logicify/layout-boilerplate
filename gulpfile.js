@@ -1,4 +1,5 @@
 var config = {
+    DEST_DIR: 'dist',
     scssPattern: 'scss/**/*.scss'
 };
 
@@ -25,7 +26,7 @@ var gulp = require('gulp'),
 gulp.task('browser-sync', function () {
     browserSync({
         server: {
-            baseDir: 'dist'
+            baseDir: config.DEST_DIR
         },
         notify: false
     });
@@ -41,16 +42,15 @@ gulp.task('scss', function () {
         .pipe(autoprefixer(['last 15 versions']))
         .pipe(cleanCSS())
         .pipe(gulp.dest('dist/css'))
-        .pipe(browserSync.reload({stream: true}))
 });
 
 // concatenation and minimization js files
 gulp.task('js', function () {
     return gulp.src([
-        'src/libs/jquery/dist/jquery-3.3.1.min.js',
+        'src/js/vendor/jquery-3.3.1.min.js',
         'src/js/common.js'
     ])
-        .pipe(concat('libs.min.js'))
+        .pipe(concat('main.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'));
 });
@@ -63,11 +63,11 @@ gulp.task('import', function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['scss', 'js', 'browser-sync', 'import'], function () {
-    gulp.watch('src/scss/**/*.scss', ['scss']);
-    gulp.watch('src/**/*.html', ['import']);
+gulp.task('watch', ['browser-sync', 'removedist', 'scss', 'js', 'import', 'assets'], function () {
+    gulp.watch('src/scss/**/*.scss', ['scss', browserSync.reload]);
+    gulp.watch('src/**/*.html', ['import', browserSync.reload]);
     gulp.watch('src/*.html', browserSync.reload);
-    gulp.watch('src/js/**/*.js', browserSync.reload);
+    gulp.watch(['src/js/**/*.js', 'src/js/*.js'], ['js', browserSync.reload]);
 });
 
 
@@ -82,12 +82,12 @@ gulp.task('imagemin', function () {
         .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('fonts', function () {
-    return gulp.src('src/fonts/**/*')
-        .pipe(gulp.dest('dist/fonts'))
+gulp.task('assets', function () {
+    return gulp.src('src/assets/**/*')
+        .pipe(gulp.dest('dist/assets'))
 });
 
-gulp.task('build', ['removedist', 'imagemin', 'scss', 'js', 'import', 'fonts'], function () {
+gulp.task('build', ['removedist', 'imagemin', 'scss', 'js', 'import', 'assets'], function () {
 });
 
 
