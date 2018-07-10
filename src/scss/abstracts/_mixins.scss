@@ -23,6 +23,39 @@
   }
 }
 
+// Placeholder @mixin for Sass
+//
+// A mixin to style placeholders in HTML5 form elements.
+// Includes also a .placeholder class to be used with a polyfill e.g.
+// https://github.com/mathiasbynens/jquery-placeholder
+// Requires Sass 3.2.
+//
+// Example usage (.scss):
+//
+// input {
+//   @include placeholder {
+//     /* styles for placeholder here */
+//   }
+// }
+//
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+    @content;
+  }
+
+  &::-moz-placeholder {  /* Firefox 19+ */
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
 /// Make a context based selector a little more friendly
 /// @author Hugo Giraudel
 /// @param {String} $context
@@ -31,16 +64,6 @@
     @content;
   }
 }
-
-/// Usual clearfix mixin
-@mixin clearfix() {
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-}
-
 
 /// helpers generating mixin
 @mixin generate-helpers($property, $values-list, $unit: '') {
@@ -60,5 +83,140 @@
 
       #{$property}: $value;
     }
+  }
+}
+
+
+//mixin for sass map colors
+//Example
+//.element {
+//  background-color: color(sky);
+//}
+@function color($key) {
+  @if map-has-key($colors, $key) {
+    @return map-get($colors, $key);
+  }
+
+  @warn "Unknown `#{$key}` in $colors.";
+  @return null;
+}
+
+
+// Define vertical, horizontal, or both position
+//Example
+//.foo {
+//  @include center(both);
+//}
+//.foo-parent {
+//  position: relative;
+//}
+@mixin center($position) {
+  position: absolute;
+
+  @if $position == 'vertical' {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @else if $position == 'horizontal' {
+    left: 50%;
+    transform: translate(-50%);
+  }
+  @else if $position == 'both' {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+// mixin for retina 2x screens background images
+//Example
+//div.logo {
+//  @include image-2x("logo2x.png");
+//}
+@mixin background-image-2x($name, $ext: 'png') {
+  $at1x-path: image("#{$name}.#{$ext}");
+  $at2x-path: image("#{$name}@2x.#{$ext}");
+
+  background-image: $at1x-path;
+
+  @media all and (-webkit-min-device-pixel-ratio: 1.5),
+  all and (-o-min-device-pixel-ratio: 3/2),
+  all and (min--moz-device-pixel-ratio: 1.5),
+  all and (min-device-pixel-ratio: 1.5) {
+    background-image: $at2x-path;
+  }
+}
+
+
+// requires Bourbon to be included
+@mixin square($size) {
+  @include size($size, $size);
+}
+
+
+/// Prefixer mixin for user-select
+@mixin user-select($value) {
+  -webkit-user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  user-select: $value;
+}
+
+
+// reset default button styles
+@mixin no-button() {
+  padding: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: none;
+  @include border-radius(0);
+  border: none;
+
+  @include on-event() {
+    background: none;
+  }
+}
+
+/**
+ * General content containers
+ * 1. Make the container full-width with a maximum width
+ * 2. Center it in the viewport
+ */
+@mixin container($max-width) {
+  @if ($max-width) {
+    max-width: $max-width;
+  } @else {
+    max-width: $container-max-width;
+  }
+  width: 100%; /* 1 */
+  margin-left: auto; /* 2 */
+  margin-right: auto; /* 2 */
+}
+
+
+/**
+ * Breakpoint mixins
+ */
+// breakpoints mixin
+// @param {String} $point - name of breakpoint
+// add '-up' if you want (min-width: $point) and leave with no suffix for (max-width: $point - 1px)
+@mixin breakpoint($point) {
+  $query-direction: '';
+  $query-point: '';
+  $query-size: '';
+
+  @if str-index($point, '-up') {
+    $query-direction: 'min-width';
+    $query-point: str-slice($point, 0, str-length($point) - str-length('-up'));
+    $query-size: map-get($breakpoints, $query-point);
+  } @else {
+    $query-point: $point;
+    $query-direction: 'max-width';
+    $query-size: map-get($breakpoints, $query-point) - 1px;
+  }
+  @media screen and (#{$query-direction}: #{$query-size}) {
+    @content;
   }
 }

@@ -37,14 +37,3 @@
 @function svg($path, $base: $base-url) {
   @return asset($base, 'svg/', $path);
 }
-
-/// Return responsive calc value with vw offset
-/// @param {Number} $initial - mobile size value
-/// @param {Number} $final - desktop size value
-/// @param {String} $unit - property units, default: 'px'
-/// @return {calc()}
-/// @require desktop size according to mock-up
-@function vw($initial, $final, $units: 'px') {
-  $result: ($final - $initial) / (1920 / 100);
-  @return calc(#{$initial}#{$units} + #{$result}vw);
-}
